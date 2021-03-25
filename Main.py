@@ -38,11 +38,14 @@ async def main():
             if song is not None:
                 if info.about != ("Listening to " + song["name"][0:57]):
                     if config["!SETTINGS!"]["names"] == "True" and \
-                            me.first_name != "Listening to " + song["name"][0:57] and \
-                            me.last_name != "by " + song["artists"][0]["name"]:
+                            me.first_name != "Listening to " + song["name"][0:57]:
                         await client(UpdateProfileRequest(
                             first_name="Listening to " + song["name"][0:57],
                             last_name="by " + song["artists"][0]["name"]
+                        ))
+                    else:
+                        await client(UpdateProfileRequest(
+                            last_name="is listening to a song by " + song["artists"][0]["name"][0:38]
                         ))
                     if config["!SETTINGS!"]["bio"] == "True" and ((await client(GetFullUserRequest(me))).about != \
                                                                   "Listening to " + song["name"][0:53] or (
@@ -54,8 +57,6 @@ async def main():
                                                                                    config["!SETTINGS!"]["bio_link"] ==
                                                                                    "True" else song["name"][0:57]
                                                                                    )))
-                    print(datetime.now().strftime("%H:%M:%S > ") + "Listening to " +
-                          colored(song["name"][0:57], "green") + " by " + colored(song["artists"][0]["name"], "green"))
                     if config["!SETTINGS!"]["profile_photo"] == "True":
                         urllib.request.urlretrieve(song["album"]["images"][0]["url"], "album.jpg")
                         if await client.upload_file("album.jpg") != await client.get_profile_photos(me):
