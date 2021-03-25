@@ -19,12 +19,11 @@ client = TelegramClient(
     'default',
     int(config["!USER!"]["tg_api_id"]),
     config["!USER!"]["tg_api_hash"])
-token = spotipy.util.prompt_for_user_token(config["!SPOTIFY!"]["username"],
-                                           "user-read-currently-playing",
-                                           config["!SPOTIFY!"]["client"],
-                                           config["!SPOTIFY!"]["secret"],
-                                           config["!SPOTIFY!"]["redirect"])
-sp = spotipy.Spotify(token=token)
+sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(scope="user-read-currently-playing",
+                                                       client_id=config["!SPOTIFY!"]["client"],
+                                                       client_secret=config["!SPOTIFY!"]["secret"],
+                                                       redirect_uri=config["!SPOTIFY!"]["redirect"]
+                                                       ))  # Connects to Spotify API
 
 
 async def main():
