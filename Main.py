@@ -44,9 +44,16 @@ async def main():
                             first_name="Listening to " + song["name"][0:57],
                             last_name="by " + song["artists"][0]["name"]
                         ))
-                    if config["!SETTINGS!"]["bio"] == "True" and (await client(GetFullUserRequest(me))).about != \
-                            "Listening to " + song["name"][0:53]:
-                        await client(UpdateProfileRequest(about="Listening to " + song["name"][0:57]))
+                    if config["!SETTINGS!"]["bio"] == "True" and ((await client(GetFullUserRequest(me))).about != \
+                                                                  "Listening to " + song["name"][0:53] or (
+                                                                  await client(GetFullUserRequest(me))).about != \
+                                                                  "Listening to " + song["external_urls"]["spotify"][
+                                                                                    0:57]):
+                        await client(UpdateProfileRequest(about="Listening to " + (song["external_urls"]["spotify"]
+                                                                                   [0:57] if
+                                                                                   config["!SETTINGS!"]["bio_link"] ==
+                                                                                   "True" else song["name"][0:57]
+                                                                                   )))
                     print(datetime.now().strftime("%H:%M:%S > ") + "Listening to " +
                           colored(song["name"][0:57], "green") + " by " + colored(song["artists"][0]["name"], "green"))
                     if config["!SETTINGS!"]["profile_photo"] == "True":
