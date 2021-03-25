@@ -40,7 +40,7 @@ async def main():
                     await client(UpdateProfileRequest(
                         first_name="Listening to " + song["name"][0:57],
                         last_name="by " + song["artists"][0]["name"],
-                        about="by " + song["artists"][0]["name"]
+                        about="Listening to " + song["name"][0:57] + " by " + song["artists"][0]["name"]
                     ))
                     print(datetime.now().strftime("%H:%M:%S > ") + "Listening to " + colored(song["name"][0:57], "green") +
                           " by " + colored(song["artists"][0]["name"], "green"))
