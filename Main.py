@@ -34,27 +34,32 @@ async def main():
         info = await client(GetFullUserRequest(id=me.username))
         if sp.currently_playing(config["!SPOTIFY!"]["market"]) is not None:
             song = sp.currently_playing(config["!SPOTIFY!"]["market"])["item"]
-            if (song is not None):
+            if song is not None:
                 if info.about != ("Listening to " + song["name"][0:57]):
-                    await client(UpdateProfileRequest(
-                        first_name="Listening to " + song["name"][0:57],
-                        last_name="by " + song["artists"][0]["name"],
-                        about="Listening to " + song["name"][0:57] + " by " + song["artists"][0]["name"]
-                    ))
-                    print(datetime.now().strftime("%H:%M:%S > ") + "Listening to " + colored(song["name"][0:57], "green") +
-                          " by " + colored(song["artists"][0]["name"], "green"))
-                    urllib.request.urlretrieve(song["album"]["images"][0]["url"], "album.jpg")
-                    await client(DeletePhotosRequest((await client.get_profile_photos(await client.get_me()))))
-                    await client(UploadProfilePhotoRequest(await client.upload_file("album.jpg")))
+                    if config["!SETTINGS!"]["names"] == "True":
+                        await client(UpdateProfileRequest(
+                            first_name="Listening to " + song["name"][0:57],
+                            last_name="by " + song["artists"][0]["name"]
+                        ))
+                    if config["!SETTINGS!"]["bio"] == "True":
+                        await client(UpdateProfileRequest(about="Listening to " + song["name"][0:57]))
+                    print(datetime.now().strftime("%H:%M:%S > ") + "Listening to " +
+                          colored(song["name"][0:57], "green") + " by " + colored(song["artists"][0]["name"], "green"))
+                    if config["!SETTINGS!"]["profile_photo"] == "True":
+                        urllib.request.urlretrieve(song["album"]["images"][0]["url"], "album.jpg")
+                        if await client.upload_file("album.jpg") != await client.get_profile_photos(me):
+                            await client(DeletePhotosRequest((await client.get_profile_photos(me))))
+                            await client(UploadProfilePhotoRequest(await client.upload_file("album.jpg")))
                     time.sleep(30)
                 else:
                     time.sleep(3)
         else:
-            await client(UpdateProfileRequest(
-                about="Not listening to music at the moment",
-                first_name=config["!USER!"]["first_name"],
-                last_name=""
-            ))
+            if config["!SETTINGS!"]["bio"] == "True":
+                await client(UpdateProfileRequest(about="Not listening to music at the moment"))
+            if config["!SETTINGS!"]["names"] == "True":
+                await client(UpdateProfileRequest(
+                    first_name=config["!USER!"]["first_name"],
+                    last_name=""))
             time.sleep(10)
 
 
