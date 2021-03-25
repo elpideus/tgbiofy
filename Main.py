@@ -12,7 +12,6 @@ import configparser
 import spotipy
 import time
 
-
 config = configparser.ConfigParser()
 config.read("config.ini")
 client = TelegramClient(
@@ -30,18 +29,23 @@ async def main():
     """ This function is the main function of the program. """
     me = await client.get_me()
 
+    timeout = 0
+
     while True:  # loop
         info = await client(GetFullUserRequest(id=me.username))
         if sp.currently_playing(config["!SPOTIFY!"]["market"]) is not None:
             song = sp.currently_playing(config["!SPOTIFY!"]["market"])["item"]
             if song is not None:
                 if info.about != ("Listening to " + song["name"][0:57]):
-                    if config["!SETTINGS!"]["names"] == "True":
+                    if config["!SETTINGS!"]["names"] == "True" and \
+                            me.first_name != "Listening to " + song["name"][0:57] and \
+                            me.last_name != "by " + song["artists"][0]["name"]:
                         await client(UpdateProfileRequest(
                             first_name="Listening to " + song["name"][0:57],
                             last_name="by " + song["artists"][0]["name"]
                         ))
-                    if config["!SETTINGS!"]["bio"] == "True":
+                    if config["!SETTINGS!"]["bio"] == "True" and (await client(GetFullUserRequest(me))).about != \
+                            "Listening to " + song["name"][0:53]:
                         await client(UpdateProfileRequest(about="Listening to " + song["name"][0:57]))
                     print(datetime.now().strftime("%H:%M:%S > ") + "Listening to " +
                           colored(song["name"][0:57], "green") + " by " + colored(song["artists"][0]["name"], "green"))
@@ -51,16 +55,6 @@ async def main():
                             await client(DeletePhotosRequest((await client.get_profile_photos(me))))
                             await client(UploadProfilePhotoRequest(await client.upload_file("album.jpg")))
                     time.sleep(30)
-                else:
-                    time.sleep(3)
-        else:
-            if config["!SETTINGS!"]["bio"] == "True":
-                await client(UpdateProfileRequest(about="Not listening to music at the moment"))
-            if config["!SETTINGS!"]["names"] == "True":
-                await client(UpdateProfileRequest(
-                    first_name=config["!USER!"]["first_name"],
-                    last_name=""))
-            time.sleep(10)
 
 
 with client:
