@@ -3,14 +3,12 @@ Author: elpideus <elpideus@gmail.com>
 Version: Beta 1.0 """
 from telethon.tl.functions.photos import UploadProfilePhotoRequest, DeletePhotosRequest
 from telethon.tl.functions.account import UpdateProfileRequest
-from telethon.tl.functions.users import GetFullUserRequest
 from telethon import TelegramClient
 from datetime import datetime
 from termcolor import colored
 import urllib.request
 import configparser
 import spotipy
-import time
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -40,11 +38,11 @@ async def main():
         me = await client.get_me()
 
         if sp.currently_playing(market) is not None and sp.currently_playing(market)["item"] is not None:
-            if me.first_name != "Listening to " + sp.currently_playing(market)["item"]["name"] \
-                    and first_name == "True":
-                await client(UpdateProfileRequest(
-                    first_name="Listening to " + sp.currently_playing(market)["item"]["name"]
-                ))
+            if me.first_name != "Listening to " + sp.currently_playing(market)["item"]["name"]:
+                if first_name == "True":
+                    await client(UpdateProfileRequest(
+                        first_name="Listening to " + sp.currently_playing(market)["item"]["name"]
+                    ))
                 if bio_act == "True":
                     if bio_link == "True":
                         await client(UpdateProfileRequest(
