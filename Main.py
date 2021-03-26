@@ -24,20 +24,6 @@ sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(scope="user-read-currentl
                                                        redirect_uri=config["!SPOTIFY!"]["redirect"]
                                                        ))  # Connects to Spotify API
 
-
-config = configparser.ConfigParser()
-config.read("config.ini")
-client = TelegramClient(
-    'default',
-    int(config["!USER!"]["tg_api_id"]),
-    config["!USER!"]["tg_api_hash"])
-sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(scope="user-read-currently-playing",
-                                                       client_id=config["!SPOTIFY!"]["client"],
-                                                       client_secret=config["!SPOTIFY!"]["secret"],
-                                                       redirect_uri=config["!SPOTIFY!"]["redirect"]
-                                                       ))
-
-
 async def main():
     """ This function is the main function of the program. """
 
