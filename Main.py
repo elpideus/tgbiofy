@@ -25,44 +25,65 @@ sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(scope="user-read-currentl
                                                        ))  # Connects to Spotify API
 
 
+config = configparser.ConfigParser()
+config.read("config.ini")
+client = TelegramClient(
+    'default',
+    int(config["!USER!"]["tg_api_id"]),
+    config["!USER!"]["tg_api_hash"])
+sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(scope="user-read-currently-playing",
+                                                       client_id=config["!SPOTIFY!"]["client"],
+                                                       client_secret=config["!SPOTIFY!"]["secret"],
+                                                       redirect_uri=config["!SPOTIFY!"]["redirect"]
+                                                       ))
+
+
 async def main():
     """ This function is the main function of the program. """
-    me = await client.get_me()
 
-    timeout = 0
+    first_name = config["!SETTINGS!"]["first_name"]
+    last_name = config["!SETTINGS!"]["last_name"]
+    profile_photo = config["!SETTINGS!"]["profile_photo"]
+    bio_act = config["!SETTINGS!"]["bio"]
+    bio_link = config["!SETTINGS!"]["bio_link"]
+    market = config["!SPOTIFY!"]["market"]
+    image = ["", ""]
 
-    while True:  # loop
-        info = await client(GetFullUserRequest(id=me.username))
-        if sp.currently_playing(config["!SPOTIFY!"]["market"]) is not None:
-            song = sp.currently_playing(config["!SPOTIFY!"]["market"])["item"]
-            if song is not None:
-                if info.about != ("Listening to " + song["name"][0:57]):
-                    if config["!SETTINGS!"]["names"] == "True" and \
-                            me.first_name != "Listening to " + song["name"][0:57]:
+    while True:
+
+        me = await client.get_me()
+
+        if sp.currently_playing(market) is not None and sp.currently_playing(market)["item"] is not None:
+            if me.first_name != "Listening to " + sp.currently_playing(market)["item"]["name"] \
+                    and first_name == "True":
+                await client(UpdateProfileRequest(
+                    first_name="Listening to " + sp.currently_playing(market)["item"]["name"]
+                ))
+                if bio_act == "True":
+                    if bio_link == "True":
                         await client(UpdateProfileRequest(
-                            first_name="Listening to " + song["name"][0:57],
-                            last_name="by " + song["artists"][0]["name"]
+                            about=sp.currently_playing(market)["item"]["external_urls"]["spotify"]
                         ))
                     else:
                         await client(UpdateProfileRequest(
-                            last_name="is listening to a song by " + song["artists"][0]["name"][0:38]
+                            about=sp.currently_playing(market)["item"]["name"] + " - " + sp.currently_playing(market)[
+                                "item"]["artists"][0]["name"]
                         ))
-                    if config["!SETTINGS!"]["bio"] == "True" and ((await client(GetFullUserRequest(me))).about != \
-                                                                  "Listening to " + song["name"][0:53] or (
-                                                                  await client(GetFullUserRequest(me))).about != \
-                                                                  "Listening to " + song["external_urls"]["spotify"][
-                                                                                    0:57]):
-                        await client(UpdateProfileRequest(about="Listening to " + (song["external_urls"]["spotify"]
-                                                                                   [0:57] if
-                                                                                   config["!SETTINGS!"]["bio_link"] ==
-                                                                                   "True" else song["name"][0:57]
-                                                                                   )))
-                    if config["!SETTINGS!"]["profile_photo"] == "True":
-                        urllib.request.urlretrieve(song["album"]["images"][0]["url"], "album.jpg")
-                        if await client.upload_file("album.jpg") != await client.get_profile_photos(me):
-                            await client(DeletePhotosRequest((await client.get_profile_photos(me))))
-                            await client(UploadProfilePhotoRequest(await client.upload_file("album.jpg")))
-                    time.sleep(30)
+                image[1] = sp.currently_playing(market)["item"]["name"]
+
+            if me.last_name != "by " + sp.currently_playing(market)["item"]["artists"][0]["name"] \
+                    and last_name == "True":
+                await client(UpdateProfileRequest(
+                    last_name="by " + sp.currently_playing(market)["item"]["artists"][0]["name"]
+                ))
+
+            if profile_photo == "True":
+                if image[0] != image[1]:
+                    urllib.request.urlretrieve(sp.currently_playing(market)["item"]["album"]["images"][0]["url"],
+                                               "album.jpg")
+                    await client(DeletePhotosRequest((await client.get_profile_photos(me))))
+                    await client(UploadProfilePhotoRequest(await client.upload_file("album.jpg")))
+                    image[0] = image[1]
 
 
 with client:
