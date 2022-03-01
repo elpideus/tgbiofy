@@ -19,6 +19,8 @@ Go into the config.ini file and change information by putting your own.
 You can obtain the `client_id` and the `secret_client_id` by creating an app 
 [here](https://developer.spotify.com/dashboard/applications).
 
+Then edit the application settings and add http://localhost:8080 to your redirect URL.
+
 Also, the `api_id` and the `api_hash` can be optained by creating an application [here](https://my.telegram.org/), 
 under API Development tools.
 
