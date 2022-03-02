@@ -1,6 +1,6 @@
 """ This module updates user's Telegram information when his song on Spotify is changed.
 Author: elpideus <elpideus@gmail.com>
-Version: Beta 1.0 """
+Version: Beta 2.0 """
 from telethon.tl.functions.photos import UploadProfilePhotoRequest, DeletePhotosRequest
 from telethon.tl.functions.account import UpdateProfileRequest
 from telethon import TelegramClient
@@ -9,6 +9,7 @@ from termcolor import colored
 import urllib.request
 import configparser
 import spotipy
+import time
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -68,7 +69,9 @@ async def main():
                     await client(DeletePhotosRequest((await client.get_profile_photos(me))))
                     await client(UploadProfilePhotoRequest(await client.upload_file("album.jpg")))
                     image[0] = image[1]
+        print(image)
 
+        time.sleep(60) # the only fix that works for now
 
 with client:
     print(datetime.now().strftime("%H:%M:%S > ") + colored("Program has been booted.", "green"))
