@@ -1,34 +1,61 @@
-# TGBIOFY - Telegram & Spotify integration
-___
+# tgbiofy
 
-##### Changes the Telegram bio, profile picture, first and last name to the song that the user is currently listening to.
+#### Display what you are currently listening to on your Telegram profile.
+---
 
-Only one file and the magic is done.
+# Installation:
 
-## Requisites
+###### Clone this repo:
+```bash
+$ git clone https://github.com/elpideus/tgbiofy.git
+```
 
-[Telethon](https://pypi.org/project/Telethon/)  
-[urllib](https://pypi.org/project/urllib3/)  
-[spotipy](https://pypi.org/project/spotipy/)  
-[termcolor](https://pypi.org/project/termcolor/)  
+###### Go to the "tgbiofy" directory:
+```bash
+$ cd tgbiofy
+```
 
-## How to use
+###### Install the required libraries using pip:
+```bash
+$ pip3 install -r requirements.txt
+``` 
 
-Go into the config.ini file and change information by putting your own.
+# Setting up:
 
-You can obtain the `client_id` and the `secret_client_id` by creating an app 
-[here](https://developer.spotify.com/dashboard/applications).
+### Telegram:
 
-Then edit the application settings and add http://localhost:8080 to your redirect URL.
+1. Go to [my.telegram.org](https://my.telegram.org/)
+2. Authorize and click on API development tools
+3. Create an application and set the web type (you can specify any names, we only need api_id and api_hash):
+![1.1](https://github.com/L4zzur/spotify-to-telegram/raw/main/img/2.png)
+> Don't share these tokens with anyone
 
-Also, the `api_id` and the `api_hash` can be optained by creating an application [here](https://my.telegram.org/), 
-under API Development tools.
+### Spotify
+1. Go to [Spotify Dashboard](https://developer.spotify.com/dashboard/)
+2. Log in and create a new application 
+![1.2](https://github.com/L4zzur/spotify-to-telegram/raw/main/img/3.png)
+3. Go to the created application, and then in settings
+![1.3](https://github.com/L4zzur/spotify-to-telegram/blob/main/img/4.png)
+4. Add or change the Redirect URIs line: http://localhost:8080/callback
+![1.4](https://i.ibb.co/phHsr5f/redirecturis.png)
+>  Don't share these tokens with anyone
 
-Start Main.py
+### Python
+1. Edit the `config.ini` file by entering your data.
 
-Done!
+# Запуск / Run
+1. Run the script:
+```bash
+$ python3 Main.py
+```
+2. A web page will open in the browser. Let it load and then go back to the terminal.
+3. Login by using your phone number. **!!!Bot tokens won't work!!!**
+4. Enjoy!
 
-## Issues
 
-If you need any kind of help feel free to use the "[Issues](https://github.com/elpideus/tgbiofy/issues)" section here on 
-GitHub.
+---
+> README written by [L4zzur](https://github.com/L4zzur) for his own modified version of tgbiofy.
+
+
+
+
