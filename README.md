@@ -43,7 +43,7 @@ $ pip3 install -r requirements.txt
 ### Python
 1. Edit the `config.ini` file by entering your data.
 
-# Запуск / Run
+# Run
 1. Run the script:
 ```bash
 $ python3 Main.py
