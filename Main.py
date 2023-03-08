@@ -1,6 +1,6 @@
 """ This module updates user's Telegram information when his song on Spotify is changed.
 Author: elpideus <elpideus@gmail.com>
-Version: Beta 2.0 """
+Version: 1.0 """
 
 from telethon.tl.functions.photos import UploadProfilePhotoRequest, DeletePhotosRequest
 from telethon.tl.functions.account import UpdateProfileRequest
