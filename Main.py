@@ -1,6 +1,7 @@
 """ This module updates user's Telegram information when his song on Spotify is changed.
 Author: elpideus <elpideus@gmail.com>
 Version: Beta 2.0 """
+
 from telethon.tl.functions.photos import UploadProfilePhotoRequest, DeletePhotosRequest
 from telethon.tl.functions.account import UpdateProfileRequest
 from telethon import TelegramClient
@@ -23,6 +24,7 @@ sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(scope="user-read-currentl
                                                        redirect_uri=config["!SPOTIFY!"]["redirect"]
                                                        ))  # Connects to Spotify API
 
+
 async def main():
     """ This function is the main function of the program. """
 
@@ -32,12 +34,11 @@ async def main():
     bio_act = config["!SETTINGS!"]["bio"]
     bio_link = config["!SETTINGS!"]["bio_link"]
     market = config["!SPOTIFY!"]["market"]
-    image = ["", ""]
+    me = await client.get_me()
+
+    await client.download_profile_photo(me, "pfpic.jpg", download_big=True)
 
     while True:
-
-        me = await client.get_me()
-
         if sp.currently_playing(market) is not None and sp.currently_playing(market)["item"] is not None:
             if me.first_name != "Listening to " + sp.currently_playing(market)["item"]["name"]:
                 if first_name == "True":
@@ -54,7 +55,6 @@ async def main():
                             about=sp.currently_playing(market)["item"]["name"] + " - " + sp.currently_playing(market)[
                                 "item"]["artists"][0]["name"]
                         ))
-                image[1] = sp.currently_playing(market)["item"]["name"]
 
             if me.last_name != "by " + sp.currently_playing(market)["item"]["artists"][0]["name"] \
                     and last_name == "True":
@@ -63,15 +63,13 @@ async def main():
                 ))
 
             if profile_photo == "True":
-                if image[0] != image[1]:
-                    urllib.request.urlretrieve(sp.currently_playing(market)["item"]["album"]["images"][0]["url"],
-                                               "album.jpg")
-                    await client(DeletePhotosRequest((await client.get_profile_photos(me))))
-                    await client(UploadProfilePhotoRequest(await client.upload_file("album.jpg")))
-                    image[0] = image[1]
-        print(image)
+                urllib.request.urlretrieve(sp.currently_playing(market)["item"]["album"]["images"][0]["url"],
+                                           "album.jpg")
+                await client(DeletePhotosRequest((await client.get_profile_photos(me))))
+                await client(UploadProfilePhotoRequest(file=(await client.upload_file("album.jpg"))))
 
-        time.sleep(60) # the only fix that works for now
+        time.sleep(30)  # the only fix that works for now
+
 
 with client:
     print(datetime.now().strftime("%H:%M:%S > ") + colored("Program has been booted.", "green"))
