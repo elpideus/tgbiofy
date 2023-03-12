@@ -1,6 +1,6 @@
 """ This module updates user's Telegram information when his song on Spotify is changed.
 Author: elpideus <elpideus@gmail.com>
-Version: 1.0 """
+Version: 1.1 """
 
 from telethon.tl.functions.photos import UploadProfilePhotoRequest, DeletePhotosRequest
 from telethon.tl.functions.account import UpdateProfileRequest
@@ -28,6 +28,7 @@ sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(scope="user-read-currentl
 async def main():
     """ This function is the main function of the program. """
 
+    lite = config["!SETTINGS!"]["lite_version"]
     first_name = config["!SETTINGS!"]["first_name"]
     last_name = config["!SETTINGS!"]["last_name"]
     profile_photo = config["!SETTINGS!"]["profile_photo"]
@@ -40,29 +41,31 @@ async def main():
 
     while True:
         if sp.currently_playing(market) is not None and sp.currently_playing(market)["item"] is not None:
-            if me.first_name != "Listening to " + sp.currently_playing(market)["item"]["name"]:
+
+            if bio_act == "True":
+                if bio_link == "True" and lite != "True":
+                    await client(UpdateProfileRequest(
+                        about=sp.currently_playing(market)["item"]["external_urls"]["spotify"]
+                    ))
+                else:
+                    await client(UpdateProfileRequest(
+                        about="🎵 " + sp.currently_playing(market)["item"]["name"] + " - " + sp.currently_playing(market)[
+                            "item"]["artists"][0]["name"]
+                    ))
+
+            if me.first_name != "Listening to " + sp.currently_playing(market)["item"]["name"] and lite != "True":
                 if first_name == "True":
                     await client(UpdateProfileRequest(
                         first_name="Listening to " + sp.currently_playing(market)["item"]["name"]
                     ))
-                if bio_act == "True":
-                    if bio_link == "True":
-                        await client(UpdateProfileRequest(
-                            about=sp.currently_playing(market)["item"]["external_urls"]["spotify"]
-                        ))
-                    else:
-                        await client(UpdateProfileRequest(
-                            about=sp.currently_playing(market)["item"]["name"] + " - " + sp.currently_playing(market)[
-                                "item"]["artists"][0]["name"]
-                        ))
 
             if me.last_name != "by " + sp.currently_playing(market)["item"]["artists"][0]["name"] \
-                    and last_name == "True":
+                    and last_name == "True" and lite != "True":
                 await client(UpdateProfileRequest(
                     last_name="by " + sp.currently_playing(market)["item"]["artists"][0]["name"]
                 ))
 
-            if profile_photo == "True":
+            if profile_photo == "True" and lite != "True":
                 urllib.request.urlretrieve(sp.currently_playing(market)["item"]["album"]["images"][0]["url"],
                                            "album.jpg")
                 await client(DeletePhotosRequest((await client.get_profile_photos(me))))

@@ -1,6 +1,18 @@
 # tgbiofy
 
 #### Display what you are currently listening to on your Telegram profile.
+
+![Python Version](https://img.shields.io/badge/Python-v3.11-informational?style=for-the-badge&logo=python)
+![GitHub release ](https://img.shields.io/github/v/release/elpideus/tgbiofy?include_prereleases&style=for-the-badge&logo=github)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/elpideus/tgbiofy?style=for-the-badge&logo=github)
+![GitHub all releases](https://img.shields.io/github/downloads/elpideus/tgbiofy/total?style=for-the-badge&logo=github)
+![GitHub](https://img.shields.io/github/license/elpideus/tgbiofy?style=for-the-badge)\
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/elpideus/tgbiofy?style=for-the-badge&label=Updates%20Frequency)
+![GitHub last commit](https://img.shields.io/github/last-commit/elpideus/tgbiofy?style=for-the-badge&label=Updated)
+![GitHub Repo stars](https://img.shields.io/github/stars/elpideus/tgbiofy?label=Stars&style=for-the-badge&logo=github)
+![GitHub forks](https://img.shields.io/github/forks/elpideus/tgbiofy?label=Forks&style=for-the-badge&logo=github)
+![GitHub watchers](https://img.shields.io/github/watchers/elpideus/tgbiofy?label=Watchers&style=for-the-badge&logo=github)
+
 ---
 
 # Installation:
@@ -52,10 +64,40 @@ $ python3 Main.py
 3. Login by using your phone number. **!!!Bot tokens won't work!!!**
 4. Enjoy!
 
+---
+
+# Configuration
+
+From the `config.ini` file it is also possible to easily change the settings of the script. Changing these settings 
+allow everyone to have a customized version of the script. The settings can be found under the `[!SETTINGS!]` section 
+in the `config.ini` file.\
+Below a list of the settings and a description of what each one does:
+1. `lite_version` - Disables every other settings and only enables the `bio` setting. In other words it only allows for
+the "_About_" section to be changed. It is **False** by default.
+2. `first_name` - Allows for the first name to be changed. If **True** the first name will be `Listening to 
+<song name>`. Usually it is suggested to set the same value as for `last_name`, and is **True** by default.
+3. `last_name` - Allows for the last name to be changed. If **True** the last name will be `by <artist name>`. It is 
+suggested to set the same value as for `first_name`, which is **True** by default.
+4. `profile_photo` - The profile picture can be changed to the album's cover. It is **True** by default.
+5. `bio` - Defines if the about section of the profile should be changed or not. Value `True` is needed in order for
+`bio_link` to work. The default value is **True**.
+6. `bio_link` - A link to the song can be shown in the about section. This setting manages the ability to do so. If this
+setting is **False** while `bio` is **True** then the about section will contain `Listening to <song name> by <artist 
+name>`. It is **True** by default.
 
 ---
-> README written by [L4zzur](https://github.com/L4zzur) for his own modified version of tgbiofy.
 
+# Important - legal information
 
+> A user by the name of [L4zzur](https://github.com/L4zzur) modified this project and published it as his own, without a
+copyright notice nor a source disclosure. His upload is nothing more than a striped down version of this project which 
+only allows for the "_About_" section to be changed.\
+Pay attention to the fake copies out there and always examine the code before executing as it could contain indesired
+malware (miners, keyloggers, ransomware, etc.). 
 
+The license can be found inside this project. It is possible to modify this project and even distribute it for 
+commercial purposes and/or patent use. However, the source need to be disclosed and there needs to be a copyright and 
+license notice. Also, it needs to be published under the same license.
 
+If your project includes or is a modified version of this script, and you are unsure about the legal terms contact me at
+[elpideus@gmail.com](mailto:elpideus@gmail.com).
