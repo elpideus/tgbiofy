@@ -1,6 +1,6 @@
 """ This module updates user's Telegram information when his song on Spotify is changed.
 Author: elpideus <elpideus@gmail.com>
-Version: 1.1 """
+Version: 1.2 """
 
 from telethon.tl.functions.photos import UploadProfilePhotoRequest, DeletePhotosRequest
 from telethon.tl.functions.account import UpdateProfileRequest
@@ -32,8 +32,7 @@ async def main():
     first_name = config["!SETTINGS!"]["first_name"]
     last_name = config["!SETTINGS!"]["last_name"]
     profile_photo = config["!SETTINGS!"]["profile_photo"]
-    bio_act = config["!SETTINGS!"]["bio"]
-    bio_link = config["!SETTINGS!"]["bio_link"]
+    bio = config["!SETTINGS!"]["bio"]
     market = config["!SPOTIFY!"]["market"]
     me = await client.get_me()
 
@@ -42,16 +41,15 @@ async def main():
     while True:
         if sp.currently_playing(market) is not None and sp.currently_playing(market)["item"] is not None:
 
-            if bio_act == "True":
-                if bio_link == "True" and lite != "True":
-                    await client(UpdateProfileRequest(
-                        about=sp.currently_playing(market)["item"]["external_urls"]["spotify"]
-                    ))
-                else:
-                    await client(UpdateProfileRequest(
-                        about="🎵 " + sp.currently_playing(market)["item"]["name"] + " - " + sp.currently_playing(market)[
-                            "item"]["artists"][0]["name"]
-                    ))
+            if bio == "link" and lite != "True":
+                await client(UpdateProfileRequest(
+                    about=sp.currently_playing(market)["item"]["external_urls"]["spotify"]
+                ))
+            else:
+                await client(UpdateProfileRequest(
+                    about="🎵 " + sp.currently_playing(market)["item"]["name"] + " - " + sp.currently_playing(market)[
+                        "item"]["artists"][0]["name"]
+                ))
 
             if me.first_name != "Listening to " + sp.currently_playing(market)["item"]["name"] and lite != "True":
                 if first_name == "True":

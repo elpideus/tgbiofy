@@ -79,11 +79,8 @@ the "_About_" section to be changed. It is **False** by default.
 3. `last_name` - Allows for the last name to be changed. If **True** the last name will be `by <artist name>`. It is 
 suggested to set the same value as for `first_name`, which is **True** by default.
 4. `profile_photo` - The profile picture can be changed to the album's cover. It is **True** by default.
-5. `bio` - Defines if the about section of the profile should be changed or not. Value `True` is needed in order for
-`bio_link` to work. The default value is **True**.
-6. `bio_link` - A link to the song can be shown in the about section. This setting manages the ability to do so. If this
-setting is **False** while `bio` is **True** then the about section will contain `Listening to <song name> by <artist 
-name>`. It is **True** by default.
+5. `bio` - Defines if and what should be changed in the _"About"_ section of the user's profile. It can be either
+"**link**" or "**info**". The default value is **link**. 
 
 ---
 
