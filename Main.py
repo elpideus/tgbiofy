@@ -79,7 +79,7 @@ async def main():
 
             currently_playing_song_verify = sp.currently_playing(market)["item"]["name"]
 
-        if timeout >= 1:
+        if timeout >= 10:
             await client(UpdateProfileRequest(first_name=old_first_name, last_name=old_last_name, about=old_about))
             await client(DeletePhotosRequest((await client.get_profile_photos(me))))
             await client(UploadProfilePhotoRequest(file=(await client.upload_file("pfpic.jpg"))))
