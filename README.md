@@ -82,6 +82,10 @@ suggested to set the same value as for `first_name`, which is **True** by defaul
 5. `bio` - Defines if and what should be changed in the _"About"_ section of the user's profile. It can be either
 "**link**" or "**info**". The default value is **link**. 
 
+It is possible to start and stop the script via a message to yourself (Saved Messages). You can either use 
+`/tgbiofy start` or `/tgbiofy stop`. The script updates every 30 seconds, so you may need to wait at most 30 seconds 
+before seeing the changes on your profile.
+
 ---
 
 # Important - legal information
