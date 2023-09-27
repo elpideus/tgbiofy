@@ -19,17 +19,17 @@
 
 ###### Clone this repo:
 ```bash
-$ git clone https://github.com/elpideus/tgbiofy.git
+git clone https://github.com/elpideus/tgbiofy.git
 ```
 
 ###### Go to the "tgbiofy" directory:
 ```bash
-$ cd tgbiofy
+cd tgbiofy
 ```
 
 ###### Install the required libraries using pip:
 ```bash
-$ pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 ``` 
 
 # Setting up:
