@@ -1,4 +1,4 @@
-# tgbiofy
+# tgbiofy (OUTDATED - Do not use otherwise Telegram will disconnect your account from all devices)
 
 #### Display what you are currently listening to on your Telegram profile.
 
