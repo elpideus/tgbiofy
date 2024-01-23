@@ -111,7 +111,7 @@ async def main():
             await client(UploadProfilePhotoRequest(file=(await client.upload_file("pfpic.jpg"))))
 
         timeout += 1
-        await asyncio.sleep(30)
+        await asyncio.sleep(60)
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
