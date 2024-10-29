@@ -2,7 +2,7 @@
 
 #### Display what you are currently listening to on your Telegram profile.
 
-![Python Version](https://img.shields.io/badge/Python-v3.11-informational?style=for-the-badge&logo=python)
+![Python Version](https://img.shields.io/badge/Python-v3.13-informational?style=for-the-badge&logo=python)
 ![GitHub release ](https://img.shields.io/github/v/release/elpideus/tgbiofy?include_prereleases&style=for-the-badge&logo=github)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/elpideus/tgbiofy?style=for-the-badge&logo=github)
 ![GitHub all releases](https://img.shields.io/github/downloads/elpideus/tgbiofy/total?style=for-the-badge&logo=github)
